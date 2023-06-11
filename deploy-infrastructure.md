@@ -1,11 +1,5 @@
-# 👨🏼‍💻 Deploying a 4 Tier Mailing Web Application on AWS 👨🏼‍💻
-## NOTE (ANNOUNCEMENT) DEC 29th:
-- I recently updated the branch name `three-tier-mailing-app-project` where the project scripts are in to `four-tier-mailing-app-project` 
-- You do not have to border about changing anything on your end because the project runbooks/scripts are all still the same, I only update the branch name to match the architecture we're building for this Application.
-- To make things esier for everyone, I have `MADE` the `four-tier-mailing-app-project` BRANCH the `DEFAULT` BRANCH. So you don't have to switch to the project branch everytime you click on the base repo link. 
-
-## 
-In this runbook, we will implement the PHP Mailing deployment with multi-tier architecture on AWS. We will be using the Amazon EC2 service on AWS for Webservers and Appservers. For the Mysql database, we will use the RDS service. We'll also see how to connect the Webserver to the Appservers and the Appservers with the Database to achieve a multi-tier application architecture deployment.
+# 👨🏼‍💻 Deploying a 3 Tier H.A Web Application on AWS 👨🏼‍💻
+In this runbook, we will discuss/implement the a PHP app deployment with multi-tier architecture on AWS. We will be using the Amazon EC2 service on AWS for Linux server, Apache Web server and PHP. For the Mysql database, we will use the RDS service on AWS as a separate micro service and will be serving a seperate layer based on the architecture. We will connect the webserver to the app and the app with the database to achieve a multi-tier application architecture deployment. To engage this project, you need to have a registered AWS account and at this point, I assume that you already have one.
 
 ## STEP 1: Create The Base Networking Infrastructure For NAT/ELB, Webservers, Appservers and Database
 ### A) Create The VPC Network
@@ -235,7 +229,7 @@ In this runbook, we will implement the PHP Mailing deployment with multi-tier ar
             - VPC: Select `Prod-VPC`
             - Protocol version: `HTTP1`
             - Health checks: `HTTP`
-            - Health check path: `/VenturaMailingApp.php`
+            - Health check path: `/SamplePage.php`
             - Click on `Next`
             - Click on `Create target group`
 
@@ -265,7 +259,7 @@ In this runbook, we will implement the PHP Mailing deployment with multi-tier ar
             - VPC: Select `Prod-VPC`
             - Protocol version: `HTTP1`
             - Health checks: `HTTP`
-            - Health check path: `/VenturaMailingApp.php`
+            - Health check path: `/SamplePage.php`
             - Click on `Next`
             - Click on `Create target group`
 
@@ -277,7 +271,7 @@ In this runbook, we will implement the PHP Mailing deployment with multi-tier ar
     
     - Click on `Create load balancer`
 
-## STEP 7: Create an S3 Bucket Environment To Upload The Automation and Database Configs
+## STEP : Create an S3 Bucket Environment To Upload The Automation and Database Configs
 - Navigate to `Amazon S3`
 - Click on `Create Bucket`
     - Name: Use naming convention `prod-proxy-app-db-config-YOUR-LAST-NAME-and-DAY-OF-BIRTH`
@@ -288,7 +282,7 @@ In this runbook, we will implement the PHP Mailing deployment with multi-tier ar
     - Default encryption: `Enable`
     - Click `CREATE BUCKET`
 
-## STEP 8: Create a Bastion Host VM For Remote Access ((SSH)) To Webservers, Appservers and MySQL Database
+## STEP : Create a Bastion Host VM For Remote Access ((SSH)) To Webservers, Appservers and MySQL Database
 - Navigate to Instance in EC2
 - Click on `Create Instance`
     - Name: `Prod-Bastion-Host`
@@ -336,7 +330,7 @@ Now run the above command to check added identities or Private keys
     - Name: `EC2-AmazonS3ReadOnlyAccess`
     - Click `CREATE`
 
-## STEP 9: Create Webservers and Apservers Launch Templates
+## STEP 7: Create Webservers and Apservers Launch Templates
 ### Create Webserver Launch Template
 - Naviagte to EC2/Launch Configuration
     - Click on `Create Launch Configuration`
@@ -379,7 +373,7 @@ Now run the above command to check added identities or Private keys
             - Once changes have been made and user data passed 
             - Click on `Create launch template`
 
-## STEP 10: Create Webserver and Appserver Auto Scaling Groups
+## STEP 8: Create Webserver and Appserver Auto Scaling Groups
 ### A). Webserver Autocsaling Group
 - Navigate to `EC2/Auto Scaling`
     - Click on `Create Auto Scaling Group`
@@ -444,7 +438,7 @@ Now run the above command to check added identities or Private keys
             - Click on `NEXT`
             - Click on `Create Auto Scaling Group`
 
-## STEP 11: Create a Database Subnet Group and Database Instance (RDS)
+## STEP 9: Create a Database Subnet Group and Database Instance (RDS)
 ### A) Create Databse Subnet Group
 - Navigate to the `RDS` Service
 - Click on `Subnet groups`
@@ -496,7 +490,7 @@ Now run the above command to check added identities or Private keys
         - Deletion protection: `Disable`
     - Click `CREATE DATABASE`
 
-## STEP 12: Create a Route 53 Hosted Zone and Record For The Frontend Load Balancer Endpoint
+## STEP 10: Create a Route 53 Hosted Zone and Record For The Frontend Load Balancer Endpoint
 
 
 
